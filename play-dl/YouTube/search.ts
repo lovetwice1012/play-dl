@@ -23,22 +23,6 @@ export type YouTube = YouTubeVideo | YouTubeChannel | YouTubePlayList;
 export async function yt_search(search: string, options: ParseSearchInterface = {}): Promise<YouTube[]> {
     let url = 'https://www.youtube.com/results?search_query=' + search;
     options.type ??= 'video';
-    if (url.indexOf('&sp=') === -1) {
-        url += '&sp=';
-        switch (options.type) {
-            case 'channel':
-                url += SearchType.Channel;
-                break;
-            case 'playlist':
-                url += SearchType.PlayList;
-                break;
-            case 'video':
-                url += SearchType.Video;
-                break;
-            default:
-                throw new Error(`Unknown search type: ${options.type}`);
-        }
-    }
     const body = await request(url, {
         headers: {
             'accept-language': options.language || 'en-US;q=0.9'
